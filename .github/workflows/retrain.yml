@@ -6,6 +6,8 @@ on:
 jobs:
   train:
     runs-on: ubuntu-latest
+    env:
+      MLFLOW_TRACKING_URI: file://${{ github.workspace }}/mlruns
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,4 +20,5 @@ jobs:
         with:
           name: mlflow-training-artifacts
           path: mlruns/
+          if-no-files-found: error
           retention-days: 30
