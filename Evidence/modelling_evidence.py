@@ -5,20 +5,18 @@ import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.model_selection import train_test_split
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "MLProject" / "breast_cancer_preprocessing" / "breast_cancer_clean.csv"
+DATA_DIR = ROOT / "MLProject" / "breast_cancer_preprocessing"
 TRACKING = ROOT / "evidence_mlruns"
 mlflow.set_tracking_uri(TRACKING.as_uri())
 mlflow.set_experiment("Breast Cancer Classification - Reza Harahap")
 
-df = pd.read_csv(DATA)
-X = df.drop(columns=["target"])
-y = df["target"]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
+train = pd.read_csv(DATA_DIR / "train.csv")
+test = pd.read_csv(DATA_DIR / "test.csv")
+target = "target"
+X_train, y_train = train.drop(columns=[target]), train[target]
+X_test, y_test = test.drop(columns=[target]), test[target]
 
 mlflow.sklearn.autolog(log_model_signatures=True, log_input_examples=True)
 with mlflow.start_run(run_name="baseline_autolog_reza_harahap") as run:
@@ -35,17 +33,13 @@ with mlflow.start_run(run_name="baseline_autolog_reza_harahap") as run:
     experiment_id = run.info.experiment_id
 
 state = {
-    "run_id": run_id,
-    "experiment_id": experiment_id,
-    "tracking_uri": TRACKING.as_uri(),
-    "model_uri": f"runs:/{run_id}/model",
+    "run_id": run_id, "experiment_id": experiment_id,
+    "tracking_uri": TRACKING.as_uri(), "model_uri": f"runs:/{run_id}/model",
     "metrics": metrics,
-    "payload": {
-        "dataframe_split": {
-            "columns": list(X_test.columns),
-            "data": [X_test.iloc[0].astype(float).tolist()],
-        }
-    },
+    "payload": {"dataframe_split": {
+        "columns": list(X_test.columns),
+        "data": [X_test.iloc[0].astype(float).tolist()]
+    }},
 }
 (ROOT / "evidence_state.json").write_text(json.dumps(state, indent=2))
 print(json.dumps(state, indent=2))
