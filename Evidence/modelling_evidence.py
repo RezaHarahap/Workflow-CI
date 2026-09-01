@@ -14,7 +14,7 @@ mlflow.set_experiment("Breast Cancer Classification - Reza Harahap")
 
 train = pd.read_csv(DATA_DIR / "train.csv")
 test = pd.read_csv(DATA_DIR / "test.csv")
-target = "target"
+target = "diagnosis"
 X_train, y_train = train.drop(columns=[target]), train[target]
 X_test, y_test = test.drop(columns=[target]), test[target]
 
