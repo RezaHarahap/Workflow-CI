@@ -53,12 +53,12 @@ jobs:
         run: |
           RUN_ID=$(python -c "import json;print(json.load(open('evidence_state.json'))['run_id'])")
           mlflow ui --backend-store-uri "$PWD/evidence_mlruns" --host 127.0.0.1 --port 5000 > mlflow-ui.log 2>&1 &
-          mlflow models serve -m "runs:/$RUN_ID/model" --backend-store-uri "$PWD/evidence_mlruns" --host 127.0.0.1 --port 5001 --env-manager local > serving.log 2>&1 &
+          MLFLOW_TRACKING_URI="file://$PWD/evidence_mlruns" mlflow models serve -m "runs:/$RUN_ID/model" --host 127.0.0.1 --port 5001 --env-manager local > serving.log 2>&1 &
           python Evidence/exporter.py > exporter.log 2>&1 &
           ./prometheus/prometheus --config.file="$PWD/prometheus.yml" --storage.tsdb.path="$PWD/prometheus-data" --web.listen-address=127.0.0.1:9090 > prometheus.log 2>&1 &
           ./grafana/bin/grafana server --homepath "$PWD/grafana" --config "$PWD/grafana.ini" > grafana.log 2>&1 &
           python -m http.server 8800 > report-server.log 2>&1 &
-          for port in 5000 5001 8000 9090 3000 8800; do
+          for port in 5000 8000 9090 3000 8800; do
             for i in {1..60}; do curl -fsS "http://127.0.0.1:$port" >/dev/null 2>&1 && break; sleep 2; done
           done
           sleep 8
