@@ -84,7 +84,7 @@ prom_queries=[
 ]
 for expr,name in prom_queries:
     snap("http://127.0.0.1:9090/graph?g0.expr="+expr+"&g0.tab=1",prom_out/name,5)
-graf_url="http://127.0.0.1:3000/d/reza-harahap-msml/reza-harahap?orgId=1&from=now-15m&to=now&kiosk"
+graf_url="http://127.0.0.1:3000/d/reza-harahap-msml/reza-harahap?orgId=1&from=now-15m&to=now"
 snap(graf_url,graf_out/"1.dashboard_reza_harahap.jpg",12)
 for i,name in enumerate(["2.monitoring_requests.jpg","3.monitoring_latency.jpg"],start=1):
     snap(graf_url,graf_out/name,6)
