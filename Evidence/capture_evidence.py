@@ -5,6 +5,9 @@ import requests
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "evidence-output"
@@ -75,7 +78,19 @@ def snap(url,path,wait=7):
     png.unlink()
 
 snap(f"http://127.0.0.1:5000/#/experiments/{state['experiment_id']}",model_out/"screenshoot_dashboard.jpg",10)
-snap(f"http://127.0.0.1:5000/#/experiments/{state['experiment_id']}/runs/{state['run_id']}",model_out/"screenshoot_artifak.jpg",10)
+run_url=f"http://127.0.0.1:5000/#/experiments/{state['experiment_id']}/runs/{state['run_id']}"
+driver.get(run_url)
+artifact_tab=WebDriverWait(driver,20).until(
+    EC.element_to_be_clickable((By.XPATH,"//*[normalize-space()='Artifacts']"))
+)
+driver.execute_script("arguments[0].click();",artifact_tab)
+time.sleep(8)
+assert "Artifacts" in driver.page_source and ("model" in driver.page_source or "MLmodel" in driver.page_source)
+artifact_path=model_out/"screenshoot_artifak.jpg"
+artifact_png=artifact_path.with_suffix(".png")
+driver.save_screenshot(str(artifact_png))
+Image.open(artifact_png).convert("RGB").save(artifact_path,quality=92)
+artifact_png.unlink()
 snap("http://127.0.0.1:8800/serving-report.html",mon/"1.bukti_serving.jpg",2)
 prom_queries=[
     ("model_requests_total","1.monitoring_requests.jpg"),
