@@ -1,0 +1,82 @@
+{
+  "run_id": "61610b6c350b4c25b2c1dc25d1601588",
+  "experiment_id": "940741244970822351",
+  "tracking_uri": "file:///home/runner/work/Workflow-CI/Workflow-CI/evidence_mlruns",
+  "model_uri": "runs:/61610b6c350b4c25b2c1dc25d1601588/model",
+  "metrics": {
+    "accuracy": 0.956140350877193,
+    "precision": 0.958904109589041,
+    "recall": 0.9722222222222222,
+    "f1_score": 0.9655172413793104
+  },
+  "payload": {
+    "dataframe_split": {
+      "columns": [
+        "mean radius",
+        "mean texture",
+        "mean perimeter",
+        "mean area",
+        "mean smoothness",
+        "mean compactness",
+        "mean concavity",
+        "mean concave points",
+        "mean symmetry",
+        "mean fractal dimension",
+        "radius error",
+        "texture error",
+        "perimeter error",
+        "area error",
+        "smoothness error",
+        "compactness error",
+        "concavity error",
+        "concave points error",
+        "symmetry error",
+        "fractal dimension error",
+        "worst radius",
+        "worst texture",
+        "worst perimeter",
+        "worst area",
+        "worst smoothness",
+        "worst compactness",
+        "worst concavity",
+        "worst concave points",
+        "worst symmetry",
+        "worst fractal dimension"
+      ],
+      "data": [
+        [
+          1.5685127812669883,
+          2.1640158515792023,
+          1.7428658698029404,
+          1.620763636700389,
+          -0.2653760731348614,
+          1.915931647346444,
+          1.092455123943761,
+          1.6988957575811985,
+          0.3095891846007546,
+          -0.0698842130874581,
+          1.6582330964420056,
+          -0.0345584597178713,
+          2.199279444657672,
+          1.6097947008235636,
+          -0.2323367996499849,
+          1.1987154904557906,
+          0.187956718027633,
+          0.5598166381284713,
+          -0.1620733595708477,
+          0.5238320653836768,
+          1.8621601079001424,
+          1.7082077356321026,
+          2.170622462561129,
+          1.9137010910252412,
+          -0.1877400645760313,
+          1.7442746235768125,
+          0.6885600363228858,
+          1.202144318536733,
+          -0.1404306399508,
+          0.9003617127955086
+        ]
+      ]
+    }
+  }
+}

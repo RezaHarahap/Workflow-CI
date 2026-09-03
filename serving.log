@@ -1,0 +1,6 @@
+2026/09/01 02:42:41 INFO mlflow.models.flavor_backend_registry: Selected backend for flavor 'python_function'
+2026/09/01 02:42:41 INFO mlflow.pyfunc.backend: === Running command 'exec gunicorn --timeout=60 -b 127.0.0.1:5001 -w 1 ${GUNICORN_CMD_ARGS} -- mlflow.pyfunc.scoring_server.wsgi:app'
+[2026-09-01 02:42:42 +0000] [2453] [INFO] Starting gunicorn 23.0.0
+[2026-09-01 02:42:42 +0000] [2453] [INFO] Listening at: http://127.0.0.1:5001 (2453)
+[2026-09-01 02:42:42 +0000] [2453] [INFO] Using worker: sync
+[2026-09-01 02:42:42 +0000] [2455] [INFO] Booting worker with pid: 2455
